@@ -2,16 +2,11 @@
 
   let turn = "X"
   let gameOver = false
-  let spaces = [
+  let squares = [
     null, null, null, 
     null, null, null,
     null, null, null
   ]
-
-  
-
-
-
 
 /*---------------------------- Variables (state) ----------------------------*/
 // who's turn? game over 
@@ -19,7 +14,7 @@
 
 /*------------------------ Cached Element References ------------------------*/
 const message = document.getElementById("message")
-// const board = document.querySelector(".board") 
+const board = document.querySelector(".board") 
 const boardSquares =[...document.querySelectorAll(".square")] 
 
 /*----------------------------- Event Listeners -----------------------------*/
@@ -29,10 +24,11 @@ const boardSquares =[...document.querySelectorAll(".square")]
 //   boardSquare.addEventListener("click", playersMove)
 // }
 
-boardSquares.forEach((boardSquare, idx) => {
-  boardSquare.addEventListener("click", playersMove)
-})
-console.log(boardSquares)
+// boardSquares.forEach((boardSquare, idx) => {
+//   boardSquare.addEventListener("click", playersMove, { once: true})
+// })
+
+board.addEventListener("click", handlePlayerInput)
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -40,20 +36,29 @@ function updateSpacesArray(){
   
 }
 
-function playersMove(e) {
-  // squareIndex = boardSquares[i]
-  // if (e.target.hasAttribute("disable"))
-
+function handlePlayerInput(e) {
+  let targetId = e.target.id 
+  let squareIndex = targetId.slice(2)
+  if (e.target.innerText === "X" || e.target.innerText === "O"){
+    squares.every(endGame)
+  } else {
     if (turn === "X"){
       e.target.innerText = "X"
+      squares[squareIndex] = -1
       turn = "O"
-      console.dir(e.target
+      console.dir(e.target)
     } else if (turn === "O"){
       e.target.innerText = "O"
-      turn = "X"
-      
+      squares[squareIndex] = 1
+      turn = "X" 
     } 
+  }
+}
 
+function endGame(square){
+  if (square === null){
+    console.log("Game Over!")
+  }
 }
 
 function reset(){
