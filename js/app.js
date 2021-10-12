@@ -1,13 +1,13 @@
 /*-------------------------------- Constants --------------------------------*/
-const game = {
-  turn: "X",
-  gameOver: false,
-  spaces: [
+
+  let turn = "X"
+  let gameOver = false
+  let spaces = [
     null, null, null, 
     null, null, null,
     null, null, null
   ]
-}
+
   
 
 
@@ -19,40 +19,48 @@ const game = {
 
 /*------------------------ Cached Element References ------------------------*/
 const message = document.getElementById("message")
-const board = document.querySelector(".board") 
-const boardSquares = document.querySelectorAll(".square") 
-
+// const board = document.querySelector(".board") 
+const boardSquares =[...document.querySelectorAll(".square")] 
 
 /*----------------------------- Event Listeners -----------------------------*/
- board.forEach().addEventListener("click", playersMove)
+// board.addEventListener("click", playersMove)
 
+// for (const boardSquare of boardSquares) {
+//   boardSquare.addEventListener("click", playersMove)
+// }
+
+boardSquares.forEach((boardSquare, idx) => {
+  boardSquare.addEventListener("click", playersMove)
+})
+console.log(boardSquares)
 
 /*-------------------------------- Functions --------------------------------*/
 
+function updateSpacesArray(){
+  
+}
+
 function playersMove(e) {
-  console.log("click")
-  if(e.target.hasAttribute("disabled")){
-    return
-  } else {
-    if (game.turn === "X"){
+  // squareIndex = boardSquares[i]
+  // if (e.target.hasAttribute("disable"))
+
+    if (turn === "X"){
       e.target.innerText = "X"
-      e.target.setAttribute("disabled", true)
-      game.turn = "O"
-      console.dir(e.target)
-    } else if (game.turn === "O"){
+      turn = "O"
+      console.dir(e.target
+    } else if (turn === "O"){
       e.target.innerText = "O"
-      e.target.setAttribute("disabled", true)
-      game.turn = "X"
-      console.log(game.turn)
+      turn = "X"
+      
     } 
-  }
+
 }
 
 function reset(){
 
 }
 
-console.dir(boardSquares)
+// console.dir(boardSquares.item)
 
 
 // - Display an empty tic-tac-toe board when the page is initially displayed.
