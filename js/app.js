@@ -4,9 +4,8 @@
 
 /*---------------------------- Variables (state) ----------------------------*/
 // who's turn? game over 
-let playerTurn
-let gameOver
-let isWinner //win lose tie
+let playerTurn = 1
+let isWinner = null//win lose tie
 let gameMessage = "It is X's turn!"
 let boardState = [
     null, null, null, 
@@ -40,7 +39,7 @@ const boardSquares = [...document.querySelectorAll(".square")]
 // }
 
 boardSquares.forEach((boardSquare, idx) => {
-  boardSquare.addEventListener("click", handleClick,)
+  boardSquare.addEventListener("click", handleClick)
 })
 
 board.addEventListener("click", handleClick)
@@ -51,14 +50,20 @@ resetBtn.addEventListener("click", init)
 init()
 
 function init(){
-  playerTurn = "X"
+  playerTurn = 1
   gameOver = false
-  isWinner = ""
+  isWinner = null
   boardState = [
     null, null, null, 
     null, null, null,
     null, null, null
   ]
+
+  boardSquares.forEach((boardSquare) => {
+    boardSquare.innerText = ""
+  })
+  isWinner = getWinner()
+  render()
 }
 
 function handleClick(e) {
@@ -66,18 +71,16 @@ function handleClick(e) {
   let squareIndex = parseInt(targetId.slice(2))
   
   if (boardState[squareIndex] === null){
-    playerTurn === "X" ? boardState[squareIndex] = -1 : boardState[squareIndex] = 1
-    // update backend array
+    playerTurn === 1 ? boardState[squareIndex] = -1 : boardState[squareIndex] = 1
+    render()
+    // playerTurn === "X" ? playerTurn = "O" : playerTurn = "X"
+    playerTurn = playerTurn * -1
     console.log(playerTurn)
-    playerTurn === "X" ? playerTurn = "O" : playerTurn = "X"
   } else {
     return
   }
   console.log(boardState)
-  console.log(playerTurn)
-  // flip turn
-  // updateUiSquares()
-  render()
+
   
   
   
@@ -97,7 +100,7 @@ function handleClick(e) {
   // } 
 }
 
-function render(){
+function render(){ //ADD CONDITIONAL STYLING HERE
   boardSquares.forEach((square, idx) => {
     // square.innerText = boardState[idx]
     //boardState[idx] === -1 ? square.innerText = "X" : square.innerText = "O"
@@ -106,20 +109,39 @@ function render(){
     } else if (boardState[idx] === 1){
       square.innerText = "O"
     }
-   })
+    handleMessage()
+    getWinner()
+  })
 }
 
-function handleMessage(){ //FIGURE OUT WHERE TO CALL THIS.
-  messageE.innerText = gameMessage
-}
-
-function endGame(square){
-  if (square === null){
-    // console.log("Game Over!")
+function handleMessage(){
+  if (playerTurn === 1) {
+    gameMessage = "It's X's Turn"
+  } else if (playerTurn === -1) {
+    gameMessage = "It's O's Turn"
+  } else if (isWinner === -3){
+    gameMessage = "Congrats! X Won!"
+  } else if (isWinner === 3){
+    gameMessage = "Congrats! O Won!"
+  } else if (isWinner === "T") {
+    gameMessage = "It's a Tie"
   }
+  message.innerText = gameMessage
 }
 
 
+function getWinner(){
+  winningCombos.forEach((winningLine) => {
+    let total = 0
+    winningLine.forEach((item) => {
+      total = total + boardState[item]
+      if (total === 3 || total === -3){
+        return total
+      }
+    })
+  })
+  console.log(isWinner)
+}
 // function render(array{
 //   boardState.forEach(function (square, idx))
 // })
@@ -161,29 +183,29 @@ function endGame(square){
                       // than once in variables 
                       //to make code more concise, readable, and performant:
     
-    // 2.1) Store the 9 elements that represent the squares on the page.
-      // You may want to give each square a class name in your HTML to make this easier!
+                      // 2.1) Store the 9 elements that represent the squares on the page.
+                        // You may want to give each square a class name in your HTML to make this easier!
   
-    // 2.2) Store the element that displays the game status on the page.
+                      // 2.2) Store the element that displays the game status on the page.
   
-  // 3) Upon loading, the app should:
+                      // 3) Upon loading, the app should:
   
-    // 3.1) Call an initialize function
+                      // 3.1) Call an initialize function
   
-    // 3.2) That initialize function should initialize the state variables:
-      // 3.2.1) Initialize the board array to 9 nulls to represent empty squares. 
-        // The 9 elements will "map" to each square.
-        // Index 0 represents the top-left square.
-        // Index 1 represents the top-middle square.
-        // So on, continuing through the entire board until...
-        // Index 8 maps to the bottom-right square.
-      // 3.2.2) Initialize whose turn it is to 1 (player 'X'). 
-        // Player 'O' will be represented by -1.
-      // 3.2.3) Initialize the winner variable to null.
-        // This represents that there is no winner or tie yet. 
-        // The winner variable will hold the player value (1 or -1) if there's a winner. 
-        // The winner will hold a 'T' if there's a tie.
-      // 3.2.4) Render those state variables to the page by calling a render function.
+                      // 3.2) That initialize function should initialize the state variables:
+                        // 3.2.1) Initialize the board array to 9 nulls to represent empty squares. 
+                          // The 9 elements will "map" to each square.
+                          // Index 0 represents the top-left square.
+                          // Index 1 represents the top-middle square.
+                          // So on, continuing through the entire board until...
+                          // Index 8 maps to the bottom-right square.
+                        // 3.2.2) Initialize whose turn it is to 1 (player 'X'). 
+                          // Player 'O' will be represented by -1.
+                        // 3.2.3) Initialize the winner variable to null.
+                          // This represents that there is no winner or tie yet. 
+                          // The winner variable will hold the player value (1 or -1) if there's a winner. 
+                          // The winner will hold a 'T' if there's a tie.
+                        // 3.2.4) Render those state variables to the page by calling a render function.
   
     // 3.3) The render function should:
       // 3.3.1) Loop over the board array (which represents the squares on the page), and for each iteration:
@@ -207,24 +229,24 @@ function endGame(square){
             // Each array will contain three indexes of the board that make a winner if they hold the same player value. 
             // If you are having trouble with this step, feel free to check out the winningCombos array in the solution code. 
   
-  // 5) Next, the app should wait for the user to click a square and call a handleClick function
-    // the handleClick function will...
+                              // 5) Next, the app should wait for the user to click a square and call a handleClick function
+                              // the handleClick function will...
   
-    // 5.1) Obtain the index of the square that was clicked by:
-      // 5.1.1) "Extracting" the index from an id assigned to the element in the HTML 
-      // Hint: Each id seems to correspond with an index in our board array. How could these be used if
-      // we cleaned them up a bit?
-  
-    // 5.2) If the board has a value at the index, immediately return because that square is already taken.
+                              // 5.1) Obtain the index of the square that was clicked by:
+                                // 5.1.1) "Extracting" the index from an id assigned to the element in the HTML 
+                                // Hint: Each id seems to correspond with an index in our board array. How could these be used if
+                                // we cleaned them up a bit?
+                            
+                              // 5.2) If the board has a value at the index, immediately return because that square is already taken.
   
     // 5.3) If winner is not null, immediately return because the game is over.
   
     // 5.4) Update the board array at the index with the value of turn.
   
-    // 5.5) Change the turn by multiplying turn by -1 (this flips a 1 to -1, and vice-versa).
+                              // 5.5) Change the turn by multiplying turn by -1 (this flips a 1 to -1, and vice-versa).
   
-    // 5.6) Set the winner variable if there's a winner by calling a new function: getWinner.
-      // The getWinner function will...
+                          // 5.6) Set the winner variable if there's a winner by calling a new function: getWinner.
+                            // The getWinner function will...
   
       // 5.6.1) There are a couple methods you can use to find out if there is a winner.
        // This is the first, more elegant way that takes advantage of the winningCombos array 
@@ -255,13 +277,13 @@ function endGame(square){
       
       // 5.6.5) Otherwise return null.
   
-  // 5.7) All state has been updated, so render the state to the page (step 3.3).
+                      // 5.7) All state has been updated, so render the state to the page (step 3.3).
   
-        // 6) Handle a player clicking the replay button:
+                      // 6) Handle a player clicking the replay button:
   
-    // 6.1) Add a replay button to the HTML document
+                      // 6.1) Add a replay button to the HTML document
   
-    // 6.2) Store the new replay button element
+                      // 6.2) Store the new replay button element
   
-    // 6.3) Do steps 4.1 (initialize the state variables) and 4.2 (render).
+                      // 6.3) Do steps 4.1 (initialize the state variables) and 4.2 (render).
   
