@@ -27,6 +27,7 @@ div {
 
 .reset {
   background-color: rgb(209, 1, 1);
+  background: radial-gradient(circle, hsla(0, 97%, 38%, 1) 0%, hsla(0, 57%, 16%, 1) 98%);
   border: none;
   border-radius: 50%;
   color: white;

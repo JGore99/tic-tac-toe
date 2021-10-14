@@ -101,18 +101,15 @@ function handleMessage(){
   render()
 }
   
-
-
 function getWinner(){
-  console.log("firing")
+  console.log(isWinner)
   winningCombos.forEach((winningLine) => {
     let total = 0
     winningLine.forEach((item) => {
       total = total + boardState[item]
       if (total === 3 || total === -3){
-        isWinner = total 
-        gameOver = true  
-      } else if (!boardState.includes(null) && isWinner !== total) {
+        isWinner = total  
+      } else if (isWinner !== total && !boardState.includes(null)) {
         isWinner = "T"
       }
     })
