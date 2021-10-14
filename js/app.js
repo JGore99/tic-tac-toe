@@ -35,6 +35,8 @@ resetBtn.addEventListener("click", init)
 
 init()
 
+/*-------------------------------- Functions --------------------------------*/
+
 function init(){
   playerTurn = 1
   gameOver = false
@@ -61,7 +63,7 @@ function init(){
 function handleClick(e) {
   let targetId = e.target.id 
   let squareIndex = parseInt(targetId.slice(2))
-  if (boardState[squareIndex] === null){
+  if (boardState[squareIndex] === null && isWinner === null){
     playerTurn === 1 ? boardState[squareIndex] = -1 : boardState[squareIndex] = 1
   }
   playerTurn = playerTurn * -1
@@ -71,7 +73,7 @@ function handleClick(e) {
 }  
 
 
-function render(){ //ADD CONDITIONAL STYLING HERE
+function render(){
   if (gameOver === false){
     boardSquares.forEach((square, idx) => {
       if (boardState[idx] === -1){
@@ -115,6 +117,4 @@ function getWinner(){
       }
     })
   })
-  
-  console.log("isWinner", isWinner)
 }
