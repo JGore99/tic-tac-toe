@@ -1,7 +1,7 @@
 /*---------------------------- Variables (state) ----------------------------*/
-// who's turn? game over 
+
 let playerTurn = 1
-let isWinner = null//win lose tie
+let isWinner = null
 let gameMessage = "It is X's turn!"
 let boardState = [
     null, null, null, 
@@ -21,6 +21,7 @@ const winningCombos = [
 ]
 
 /*------------------------ Cached Element References ------------------------*/
+
 const message = document.getElementById("message")
 const board = document.querySelector(".board") 
 const messageEl = document.getElementById("message")
@@ -46,7 +47,11 @@ function init(){
 
   boardSquares.forEach((boardSquare) => {
     boardSquare.innerText = ""
+    boardSquare.classList.remove("x-clicked")
+    boardSquare.classList.remove("o-clicked")
   })
+
+  
 
   isWinner = null
   handleMessage()
@@ -69,17 +74,15 @@ function handleClick(e) {
 function render(){ //ADD CONDITIONAL STYLING HERE
   if (gameOver === false){
     boardSquares.forEach((square, idx) => {
-      // square.innerText = boardState[idx]
-      //boardState[idx] === -1 ? square.innerText = "X" : square.innerText = "O"
       if (boardState[idx] === -1){
         square.innerText = "X"
+        square.classList.add("x-clicked")
       } else if (boardState[idx] === 1){
         square.innerText = "O"
+        square.classList.add("o-clicked")
       }
     })
   }
-  
-  console.log("isWinner22", isWinner)
 }
 
 function handleMessage(){
@@ -107,15 +110,11 @@ function getWinner(){
       if (total === 3 || total === -3){
         isWinner = total 
         gameOver = true  
-      // } else if (boardState.includes(null) && isWinner !== total) {
-      //   isWinner = "T"
+      } else if (!boardState.includes(null) && isWinner !== total) {
+        isWinner = "T"
       }
     })
   })
-  // if (boardState.includes(null) && isWinner === null) {
-  //   isWinner = null
-  // } else {
-  //   isWinner = "T"
-  // }
+  
   console.log("isWinner", isWinner)
 }

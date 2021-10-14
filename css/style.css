@@ -24,3 +24,12 @@ div {
   text-align: center;
   vertical-align: middle;
 }
+
+
+.x-clicked {
+  background-color: rgb(235, 154, 154);
+}
+
+.o-clicked {
+  background-color: rgb(154, 159, 235);
+}
