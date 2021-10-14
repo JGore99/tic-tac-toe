@@ -25,6 +25,18 @@ div {
   vertical-align: middle;
 }
 
+.reset {
+  background-color: rgb(209, 1, 1);
+  border: none;
+  border-radius: 50%;
+  color: white;
+  font-size: 1rem;
+  height: 4rem;
+  justify-self: start;
+  margin: 0.7rem auto;
+  padding: 0.7rem;
+  width: 4rem;
+}
 
 .x-clicked {
   background-color: rgb(235, 154, 154);
